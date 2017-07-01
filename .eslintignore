@@ -1,0 +1,9 @@
+dist/*
+build/*
+app/assets/*
+node_modules/*
+**/node_modules/*
+*.log
+*.iml
+*.json
+*.css

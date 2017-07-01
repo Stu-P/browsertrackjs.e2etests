@@ -1,0 +1,6 @@
+{
+"URL": "http://localhost/browsertrack/",
+  "MongoURI" : "mongodb://xxx:xxx@browsertrack.io:27017/UCCC_DEV?authSource=admin",
+  "PowerUser":"stutest",
+  "PowerPass":"Password12"
+}
