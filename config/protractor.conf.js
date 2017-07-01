@@ -49,8 +49,8 @@ exports.config = {
         jasmine.getEnv().addReporter(new jasmineReporters.TeamCityReporter());
 
       /* For non-angular websites */ 
-        browser.ignoreSynchronization = true;
-        browser.waitForPageLoading = waitForPageLoading;
+     //   browser.ignoreSynchronization = true;
+      //  browser.waitForPageLoading = waitForPageLoading;
 
         browser.driver.manage().timeouts().pageLoadTimeout(60000);
         browser.driver.manage().timeouts().implicitlyWait(10000);
@@ -61,10 +61,11 @@ exports.config = {
   }
 };
 
-function waitForPageLoading() {
-    browser.driver.wait(function(){
-         return browser.executeAsyncScript('return jQuery.active ==0').then(function(result) {
-             return result;
-         })
-    })
-}
+// non angular websites
+// function waitForPageLoading() {
+//     browser.driver.wait(function(){
+//          return browser.executeAsyncScript('return jQuery.active ==0').then(function(result) {
+//              return result;
+//          })
+//     })
+// }

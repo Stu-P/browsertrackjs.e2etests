@@ -1,70 +1,57 @@
-import {fileSystem} from 'fs';
-import {testSettings} from '../test_settings';
 
-export class  CommonActions {
+var CommonAction = function () {
 
-    waitForSpinner() {
+/* Some helper methods */
+
+    this.waitForSpinner = function () {
 
         browser.driver.manage().timeouts().implicitlyWait(1000);
 
         browser.wait(function(){
             browser.sleep(250)
             return browser.isElementPresent(by.css("DIV.spinner")).then(function(displayed){
-                console.log("Is spinner visible? " + displayed)
                 if(!displayed) {
                     browser.driver.manage().timeouts().implicitlyWait(10000);
                 }
                 return !displayed;
             })
         },10000);
-    }
 
-    waitForSpinnerAlt() {
-        EC = protractor.ExpectedConditions;
-        browser.driver.manage().timeouts().implicitlyWait(1000);
-
-        var spinner = $('div#SearchOptions-Loading');
-
-        browser.driver.wait(EC.not(EC.visibilityOf(spinner)),30000 ).then(function(){
-            browser.driver.manage().timeouts().implicitlyWait(1000);
-        });
 
     }
 
 
-
-
-
-    // ReactSelect element
-    selectFromTypeAhead (el, textToType) {
+    /* react select component */
+    this.selectFromTypeAhead = function (el, textToType) {
         //click to open type ahead
         el.click()
         browser.actions().sendKeys(textToType).perform()
         browser.actions().sendKeys(protractor.Key.ENTER).perform()
     }
 
-    selectFromCombobox (element, option) {
+    this.selectFromCombobox = function (element, option) {
         element.click();
         var options = element.all(by.css('div.Select-option'))
 
-        options.filter( (elm) =>{
-            return elm.getText().then( (text) => {
+        options.filter(function (elm) {
+            return elm.getText().then(function (text) {
                 return (text.indexOf(option) !== -1)
             })
         }).first().click()
     }
 
-    scrollToTop () {
+    this.scrollToTop = function () {
         browser.executeScript("window.scrollTo(0,0);")
     }
 
-    scrollIntoView (el) {
+    this.scrollIntoView = function (el) {
         browser.executeScript(function (el) {
             el.scrollIntoView()
         }, el.getWebElement())
     }
 
-    waitUntilReady = function (elm) {
+
+    this.waitUntilReady = function (elm) {
         browser.wait(function () {
             return elm.isPresent()
         }, 10000)
@@ -72,11 +59,12 @@ export class  CommonActions {
 
     /* Table related methods  */
 
-    getRow (table, rowIndex) {
+    this.getRow = function (table, rowIndex) {
         return table.all(by.tagName('tr')).get(rowIndex)
     }
 
-    findRow (table, searchText) {
+    this.findRow = function (table, searchText) {
+
         var rows = table.all(by.css('tbody tr'));
         return rows.filter(function (elm) {
             return elm.getText().then(function (text) {
@@ -85,7 +73,7 @@ export class  CommonActions {
         }).first();
     }
 
-    findRowByColumnText = function (table, columnId, searchText) {
+    this.findRowByColumnText = function (table, columnId, searchText) {
 
         var rows = table.all(by.css('tbody tr'));
 
@@ -96,8 +84,9 @@ export class  CommonActions {
         }).first();
     }
 
-    /* Returns promise containing string array containing the text of all cells */
-    getCellsText = function (row) {
+
+    /* Returns promise containing string array containing the text of  all cells */
+    this.getCellsText = function (row) {
         return row.all(by.tagName('td')).map(function (cell) {
             return cell.getText()
         }).then(function (arr) {
@@ -106,7 +95,7 @@ export class  CommonActions {
     }
 
     /* Returns a particular cell in a spectified row */
-    findColumnTextinaParticularRow = function (table, rowId, columnId) {
+    this.findColumnTextinaParticularRow = function (table, rowId, columnId) {
         var rows = table.all(by.tagName('tr')).get(rowId)
         return rows.all(by.tagName("td")).get(columnId).getText();
     }
@@ -131,8 +120,20 @@ export class  CommonActions {
         
         */
 
-    /* Cards related methods */
-        getCard (name) {
+
+
+    /* card related methods */
+
+    this.getCard = function (name) {
+        var allCards = element.all(by.css('div.card'))
+        return allCards.filter(function (elm) {
+            return elm.getText().then(function (text) {
+                return (text.indexOf(name) !== -1);
+            });
+        }).first();
+    }
+
+        this.getCard = function (name) {
         var allCards = element.all(by.css('div.card'))
         return allCards.filter(function (elm) {
             return elm.element(by.css("div.card-heading")).getText().then(function (text) {
@@ -141,18 +142,21 @@ export class  CommonActions {
         }).first();
     }
 
-    selectCard  (name) {
+
+    this.selectCard = function (name) {
         var card = this.getCard(name);
         return card.element(by.css("div.card-heading")).click();
     }
 
-    cardsLoaded (name) {
+    this.cardsLoaded = function (name) {
         return browser.wait(function () {
             return element.all(by.css('div.card')).count().then(function (c) {
                 return c > 0;
             })
+
         }, 10000)
+
     }
+
 }
-
-
+module.exports = new CommonAction();

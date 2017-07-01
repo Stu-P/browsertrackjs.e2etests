@@ -25,7 +25,6 @@ var dashboardPage = function (){
 
     this.openOverdueAlert = function()  {
         warningIcon.click();
-        browser.sleep(1000)
     }
 
     this.selectBrowser = function(name)  {
@@ -57,8 +56,6 @@ var dashboardPage = function (){
     this.closeStatusPanel = function()  {
         
         statusPanelCloseButton.click();
-        browser.sleep(500);
-
     }
 
 }

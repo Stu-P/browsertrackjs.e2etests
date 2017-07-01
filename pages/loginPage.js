@@ -7,7 +7,6 @@ var loginPage = function () {
   var loginButton = element(by.id('submit'));
   
   this.loginWithValidCredentials = function (user, pass) {
-    browser.sleep(1000) // wait for login page animation 
     usernameField.sendKeys(user);
     passwordField.sendKeys(pass);
      loginButton.click();
